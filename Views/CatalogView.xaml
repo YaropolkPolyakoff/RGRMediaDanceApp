@@ -1,0 +1,147 @@
+<Page x:Class="DanceLearning.Views.CatalogView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="{StaticResource BackgroundDarkBrush}"
+      Title="Каталог стилей">
+    <Page.Resources>
+        <!-- Difficulty badge brushes -->
+        <SolidColorBrush x:Key="EasyBrush" Color="#FF22C55E"/>
+        <SolidColorBrush x:Key="MediumBrush" Color="#FFF59E0B"/>
+        <SolidColorBrush x:Key="HardBrush" Color="#FFEF4444"/>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- Page Header -->
+        <StackPanel Grid.Row="0" Margin="32,24,32,0">
+            <TextBlock Text="Выберите направление"
+                       Style="{StaticResource HeadingStyle}"
+                       FontSize="28"/>
+            <TextBlock Text="Начните своё танцевальное путешествие прямо сейчас"
+                       Style="{StaticResource BodyStyle}"
+                       Margin="0,4,0,0"/>
+        </StackPanel>
+        <!-- Cards Grid -->
+        <ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled"
+                      Padding="32,20,32,32">
+            <ItemsControl x:Name="StylesItemsControl">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="2" HorizontalAlignment="Stretch"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <!-- Dance Style Card -->
+                        <Border Style="{StaticResource DanceCardStyle}"
+                                Margin="8"
+                                MouseLeftButtonUp="Card_Click"
+                                Tag="{Binding}">
+                            <Grid Height="220">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="140"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <!-- Cover image -->
+                                <Border Grid.Row="0" CornerRadius="16,16,0,0" ClipToBounds="True">
+                                    <Grid>
+                                        <!-- Fallback gradient if image not found -->
+                                        <Rectangle>
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                    <GradientStop Color="#FF6C3CE1" Offset="0"/>
+                                                    <GradientStop Color="#FFEC4899" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                        <!-- Raster cover image -->
+                                        <Image Source="{Binding ImagePath}"
+                                               Stretch="UniformToFill"
+                                               x:Name="CoverImage"/>
+                                        <!-- Dark overlay for text readability -->
+                                        <Rectangle Opacity="0.4">
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                    <GradientStop Color="Transparent" Offset="0"/>
+                                                    <GradientStop Color="#FF0F0F1A" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                        <!-- Vector dance icon (abstract body) -->
+                                        <Canvas Width="60" Height="60"
+                                                HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Ellipse Canvas.Left="20" Canvas.Top="0" Width="20" Height="20"
+                                                     Fill="White" Opacity="0.9"/>
+                                            <Path Data="M30,20 C22,22 18,30 20,40 C22,50 32,52 36,46 C40,40 38,26 30,20 Z"
+                                                  Fill="White" Opacity="0.9"/>
+                                            <Path Data="M25,42 L18,58 M35,42 L42,58 M25,42 L38,42"
+                                                  Stroke="White" StrokeThickness="4" Opacity="0.9"
+                                                  StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                                        </Canvas>
+                                    </Grid>
+                                </Border>
+                                <!-- Card Info -->
+                                <Grid Grid.Row="1" Margin="16,10,16,12">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <!-- Style Name -->
+                                    <TextBlock Grid.Row="0" Grid.Column="0"
+                                               Text="{Binding Name}"
+                                               Style="{StaticResource SubheadingStyle}"
+                                               FontSize="17"/>
+                                    <!-- Lessons count badge -->
+                                    <Border Grid.Row="0" Grid.Column="1"
+                                            Background="#FF252545" CornerRadius="12" Padding="8,3">
+                                        <StackPanel Orientation="Horizontal" Spacing="4">
+                                            <Canvas Width="12" Height="12" VerticalAlignment="Center">
+                                                <Path Data="M2,2 H10 V10 H2 Z M4,4 H8 M4,6 H8 M4,8 H8"
+                                                      Stroke="{StaticResource AccentBrush}"
+                                                      StrokeThickness="1.2"/>
+                                            </Canvas>
+                                            <TextBlock Text="{Binding LessonsCount, StringFormat='{}{0} уроков'}"
+                                                       Foreground="{StaticResource AccentBrush}"
+                                                       FontSize="11" FontFamily="Segoe UI" FontWeight="SemiBold"/>
+                                        </StackPanel>
+                                    </Border>
+                                    <!-- Description & Difficulty -->
+                                    <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal"
+                                                Margin="0,6,0,0" VerticalAlignment="Center" Spacing="8">
+                                        <!-- Difficulty dot indicator -->
+                                        <Ellipse Width="8" Height="8" VerticalAlignment="Center">
+                                            <Ellipse.Style>
+                                                <Style TargetType="Ellipse">
+                                                    <Setter Property="Fill" Value="{StaticResource MediumBrush}"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Difficulty}" Value="Начинающий">
+                                                            <Setter Property="Fill" Value="{StaticResource EasyBrush}"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Difficulty}" Value="Сложный">
+                                                            <Setter Property="Fill" Value="{StaticResource HardBrush}"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Ellipse.Style>
+                                        </Ellipse>
+                                        <TextBlock Text="{Binding Difficulty}"
+                                                   Style="{StaticResource BodyStyle}"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Page>

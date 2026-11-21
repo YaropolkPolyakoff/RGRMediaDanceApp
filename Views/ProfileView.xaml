@@ -1,0 +1,305 @@
+<Page x:Class="DanceLearning.Views.ProfileView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="{StaticResource BackgroundDarkBrush}"
+      Title="Личный кабинет">
+    <Page.Resources>
+        <!-- Progress bar fill animations (triggered in code-behind) -->
+        <Storyboard x:Key="FillOverallProgress">
+            <DoubleAnimation Storyboard.TargetName="OverallProgressBar"
+                             Storyboard.TargetProperty="Value"
+                             From="0" To="42"
+                             Duration="0:0:1.2">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="FillHipHopProgress">
+            <DoubleAnimation Storyboard.TargetName="HipHopProgressBar"
+                             Storyboard.TargetProperty="Value"
+                             From="0" To="65"
+                             Duration="0:0:1.0">
+                <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="FillBreakProgress">
+            <DoubleAnimation Storyboard.TargetName="BreakProgressBar"
+                             Storyboard.TargetProperty="Value"
+                             From="0" To="30"
+                             Duration="0:0:1.0">
+                <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="FillKPopProgress">
+            <DoubleAnimation Storyboard.TargetName="KPopProgressBar"
+                             Storyboard.TargetProperty="Value"
+                             From="0" To="80"
+                             Duration="0:0:1.0">
+                <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="FillHighHeelsProgress">
+            <DoubleAnimation Storyboard.TargetName="HighHeelsProgressBar"
+                             Storyboard.TargetProperty="Value"
+                             From="0" To="20"
+                             Duration="0:0:1.0">
+                <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </Page.Resources>
+    <!-- Trigger progress fill animation when page becomes visible -->
+    <Page.Triggers>
+        <EventTrigger RoutedEvent="Page.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource FillOverallProgress}"/>
+            <BeginStoryboard Storyboard="{StaticResource FillHipHopProgress}"/>
+            <BeginStoryboard Storyboard="{StaticResource FillBreakProgress}"/>
+            <BeginStoryboard Storyboard="{StaticResource FillKPopProgress}"/>
+            <BeginStoryboard Storyboard="{StaticResource FillHighHeelsProgress}"/>
+        </EventTrigger>
+    </Page.Triggers>
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled">
+        <Grid Margin="32,24,32,32">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <!-- ── PROFILE HEADER ── -->
+            <Border Grid.Row="0" Background="{StaticResource BackgroundCardBrush}"
+                    CornerRadius="16" Padding="24" Margin="0,0,0,16">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- Avatar -->
+                    <Border Grid.Column="0" Width="72" Height="72" CornerRadius="36"
+                            Margin="0,0,20,0">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#FF6C3CE1" Offset="0"/>
+                                <GradientStop Color="#FFEC4899" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Canvas Width="36" Height="42" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <!-- Vector person icon -->
+                            <Ellipse Canvas.Left="8" Canvas.Top="0" Width="20" Height="20" Fill="White" Opacity="0.9"/>
+                            <Path Data="M2,42 C2,30 34,30 34,42" Fill="White" Opacity="0.9"/>
+                        </Canvas>
+                    </Border>
+                    <!-- Name + level -->
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock x:Name="UserNameText" Text="Алексей"
+                                   Style="{StaticResource HeadingStyle}" FontSize="22"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,4,0,0" Spacing="8">
+                            <Border Background="{StaticResource AccentGradientBrush}"
+                                    CornerRadius="10" Padding="10,3">
+                                <TextBlock Text="Уровень 5 · Опытный"
+                                           Foreground="White" FontSize="12" FontFamily="Segoe UI"
+                                           FontWeight="SemiBold"/>
+                            </Border>
+                            <Border Background="#FF252545" CornerRadius="10" Padding="10,3">
+                                <StackPanel Orientation="Horizontal" Spacing="4">
+                                    <!-- Fire icon -->
+                                    <Canvas Width="12" Height="14" VerticalAlignment="Center">
+                                        <Path Data="M6,0 C4,4 8,5 7,9 C9,7 11,4 8,0 C10,5 13,8 10,12 C8,14 4,14 2,12 C0,8 3,5 6,0 Z"
+                                              Fill="#FFF59E0B"/>
+                                    </Canvas>
+                                    <TextBlock Text="5 дней подряд"
+                                               Foreground="#FFF59E0B" FontSize="12" FontFamily="Segoe UI"
+                                               FontWeight="SemiBold"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+                    <!-- Points badge -->
+                    <StackPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <TextBlock x:Name="PointsText" Text="1 250"
+                                   Style="{StaticResource HeadingStyle}" FontSize="32"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="очков" Style="{StaticResource BodyStyle}"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <!-- ── STATISTICS ROW ── -->
+            <Grid Grid.Row="1" Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!-- Stat card: Lessons completed -->
+                <Border Grid.Column="0" Background="{StaticResource BackgroundCardBrush}"
+                        CornerRadius="12" Padding="20,16" Margin="0,0,8,0">
+                    <StackPanel>
+                        <Canvas Width="28" Height="28" Margin="0,0,0,8">
+                            <Path Data="M2,2 H26 V26 H2 Z M6,8 H22 M6,13 H22 M6,18 H14"
+                                  Stroke="{StaticResource AccentBrush}" StrokeThickness="2" Fill="Transparent"/>
+                        </Canvas>
+                        <TextBlock x:Name="LessonsCompletedText" Text="7"
+                                   Style="{StaticResource HeadingStyle}" FontSize="28"/>
+                        <TextBlock Text="Уроков пройдено" Style="{StaticResource BodyStyle}" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </Border>
+                <!-- Stat card: Bundles learned -->
+                <Border Grid.Column="1" Background="{StaticResource BackgroundCardBrush}"
+                        CornerRadius="12" Padding="20,16" Margin="8,0">
+                    <StackPanel>
+                        <Canvas Width="28" Height="28" Margin="0,0,0,8">
+                            <Path Data="M14,2 L18,10 L26,11 L20,17 L21.5,25 L14,21 L6.5,25 L8,17 L2,11 L10,10 Z"
+                                  Fill="#FFF59E0B"/>
+                        </Canvas>
+                        <TextBlock x:Name="BundlesLearnedText" Text="3"
+                                   Style="{StaticResource HeadingStyle}" FontSize="28"/>
+                        <TextBlock Text="Связок изучено" Style="{StaticResource BodyStyle}" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </Border>
+                <!-- Stat card: Hours trained -->
+                <Border Grid.Column="2" Background="{StaticResource BackgroundCardBrush}"
+                        CornerRadius="12" Padding="20,16" Margin="8,0,0,0">
+                    <StackPanel>
+                        <Canvas Width="28" Height="28" Margin="0,0,0,8">
+                            <Ellipse Width="26" Height="26" Canvas.Left="1" Canvas.Top="1"
+                                     Stroke="{StaticResource AccentBrush}" StrokeThickness="2" Fill="Transparent"/>
+                            <Path Data="M14,5 L14,14 L20,14"
+                                  Stroke="{StaticResource AccentBrush}" StrokeThickness="2"
+                                  StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                        </Canvas>
+                        <TextBlock Text="4.5 ч"
+                                   Style="{StaticResource HeadingStyle}" FontSize="28"/>
+                        <TextBlock Text="Часов тренировок" Style="{StaticResource BodyStyle}" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+            <!-- ── PROGRESS BY STYLES ── -->
+            <Grid Grid.Row="2" Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!-- Progress per style -->
+                <Border Grid.Column="0" Background="{StaticResource BackgroundCardBrush}"
+                        CornerRadius="12" Padding="20" Margin="0,0,8,0">
+                    <StackPanel Spacing="16">
+                        <TextBlock Text="Прогресс по стилям" Style="{StaticResource SubheadingStyle}"/>
+                        <!-- Overall -->
+                        <StackPanel Spacing="6">
+                            <Grid>
+                                <TextBlock Text="Общий прогресс" Style="{StaticResource BodyStyle}"/>
+                                <TextBlock x:Name="OverallPctText" Text="42%" HorizontalAlignment="Right"
+                                           Style="{StaticResource BodyStyle}" Foreground="{StaticResource AccentBrush}"/>
+                            </Grid>
+                            <ProgressBar x:Name="OverallProgressBar"
+                                         Style="{StaticResource GradientProgressBarStyle}"
+                                         Minimum="0" Maximum="100" Value="0"/>
+                        </StackPanel>
+                        <!-- Hip-Hop -->
+                        <StackPanel Spacing="6">
+                            <Grid>
+                                <TextBlock Text="Hip-Hop" Style="{StaticResource BodyStyle}"/>
+                                <TextBlock Text="65%" HorizontalAlignment="Right"
+                                           Style="{StaticResource BodyStyle}" Foreground="{StaticResource AccentBrush}"/>
+                            </Grid>
+                            <ProgressBar x:Name="HipHopProgressBar"
+                                         Style="{StaticResource GradientProgressBarStyle}"
+                                         Minimum="0" Maximum="100" Value="0"/>
+                        </StackPanel>
+                        <!-- Breakdance -->
+                        <StackPanel Spacing="6">
+                            <Grid>
+                                <TextBlock Text="Breakdance" Style="{StaticResource BodyStyle}"/>
+                                <TextBlock Text="30%" HorizontalAlignment="Right"
+                                           Style="{StaticResource BodyStyle}" Foreground="{StaticResource AccentBrush}"/>
+                            </Grid>
+                            <ProgressBar x:Name="BreakProgressBar"
+                                         Style="{StaticResource GradientProgressBarStyle}"
+                                         Minimum="0" Maximum="100" Value="0"/>
+                        </StackPanel>
+                        <!-- K-Pop -->
+                        <StackPanel Spacing="6">
+                            <Grid>
+                                <TextBlock Text="K-Pop Cover Dance" Style="{StaticResource BodyStyle}"/>
+                                <TextBlock Text="80%" HorizontalAlignment="Right"
+                                           Style="{StaticResource BodyStyle}" Foreground="{StaticResource AccentBrush}"/>
+                            </Grid>
+                            <ProgressBar x:Name="KPopProgressBar"
+                                         Style="{StaticResource GradientProgressBarStyle}"
+                                         Minimum="0" Maximum="100" Value="0"/>
+                        </StackPanel>
+                        <!-- High Heels -->
+                        <StackPanel Spacing="6">
+                            <Grid>
+                                <TextBlock Text="High Heels" Style="{StaticResource BodyStyle}"/>
+                                <TextBlock Text="20%" HorizontalAlignment="Right"
+                                           Style="{StaticResource BodyStyle}" Foreground="{StaticResource AccentBrush}"/>
+                            </Grid>
+                            <ProgressBar x:Name="HighHeelsProgressBar"
+                                         Style="{StaticResource GradientProgressBarStyle}"
+                                         Minimum="0" Maximum="100" Value="0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <!-- Week Schedule -->
+                <Border Grid.Column="1" Background="{StaticResource BackgroundCardBrush}"
+                        CornerRadius="12" Padding="20" Margin="8,0,0,0">
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="Тренировочная неделя" Style="{StaticResource SubheadingStyle}"/>
+                        <UniformGrid x:Name="WeekGrid" Columns="7" Rows="1" Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+            <!-- ── WEEKLY PLAYLIST ── -->
+            <Border Grid.Row="3" Background="{StaticResource BackgroundCardBrush}"
+                    CornerRadius="12" Padding="20">
+                <StackPanel Spacing="12">
+                    <Grid>
+                        <TextBlock Text="Плейлист на неделю" Style="{StaticResource SubheadingStyle}"/>
+                        <Button HorizontalAlignment="Right"
+                                Style="{StaticResource PrimaryButtonStyle}"
+                                Content="+ Добавить урок"
+                                Click="AddLesson_Click"/>
+                    </Grid>
+                    <ListBox x:Name="PlaylistListBox"
+                             Background="Transparent"
+                             BorderThickness="0"
+                             Padding="0"
+                             ItemContainerStyle="{StaticResource StepListItemStyle}"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Title}"
+                                                   Style="{StaticResource SubheadingStyle}" FontSize="13"/>
+                                        <TextBlock Text="{Binding Day}"
+                                                   Style="{StaticResource BodyStyle}" FontSize="11" Margin="0,2,0,0"/>
+                                    </StackPanel>
+                                    <Button Grid.Column="1"
+                                            Style="{StaticResource IconButtonStyle}"
+                                            Tag="{Binding}"
+                                            Click="RemovePlaylistItem_Click">
+                                        <Canvas Width="14" Height="14">
+                                            <Path Data="M2,2 L12,12 M12,2 L2,12"
+                                                  Stroke="{StaticResource TextSecondaryBrush}"
+                                                  StrokeThickness="2"
+                                                  StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                                        </Canvas>
+                                    </Button>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</Page>
