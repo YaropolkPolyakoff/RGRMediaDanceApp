@@ -5,13 +5,13 @@
       Background="{StaticResource BackgroundDarkBrush}"
       Title="3D-демонстрация">
     <Page.Resources>
+        <!-- Auto-rotation animation -->
         <!-- 3D model rotation animation -->
         <Storyboard x:Key="ModelRotateAnim" RepeatBehavior="Forever">
             <DoubleAnimation Storyboard.TargetName="ModelRotation"
                              Storyboard.TargetProperty="Angle"
-                             From="0" To="360"
+                             Duration="0:0:6"/>
                             Duration="0:0:6"/>
-        </Storyboard>
         <!-- Camera zoom animation -->
         <Storyboard x:Key="CameraZoomIn">
             <DoubleAnimation Storyboard.TargetName="PerspCam"
@@ -34,11 +34,11 @@
     </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="240"/>
             <ColumnDefinition Width="260"/>
-        </Grid.ColumnDefinitions>
-        <!-- ======== 3D VIEWPORT ======== -->
-        <Border Grid.Column="0" Margin="24,16,12,24" CornerRadius="16" ClipToBounds="True"
+        <!-- 3D VIEWPORT -->
+        <Border Grid.Column="0" Margin="20,16,10,20" CornerRadius="8" ClipToBounds="True"
+                Background="#FF0A0A18">
                 Background="#FF080812">
             <Grid>
                 <!-- HelixToolkit HelixViewport3D for mouse orbit/zoom -->
@@ -53,17 +53,15 @@
                                            Position="0,1.5,8"
                                            LookDirection="0,-0.2,-1"
                                            UpDirection="0,1,0"
-                                           FieldOfView="45"/>
                     </h:HelixViewport3D.Camera>
                     <!-- Ambient + directional lighting -->
                     <ModelVisual3D>
                         <ModelVisual3D.Content>
                             <Model3DGroup>
-                                <AmbientLight Color="#FF404060"/>
+                                <DirectionalLight Color="#FF5B6CF6" Direction="1,-0.5,0.5"/>
                                 <DirectionalLight Color="#FFDDDDFF" Direction="-1,-1,-1"/>
                                 <DirectionalLight Color="#FF6C3CE1" Direction="1,-0.5,0.5"/>
                             </Model3DGroup>
-                        </ModelVisual3D.Content>
                     </ModelVisual3D>
                     <!-- Dancer figure: procedural 3D mesh built from GeometryModel3D -->
                     <ModelVisual3D x:Name="DancerVisual">
@@ -74,7 +72,6 @@
                                 </RotateTransform3D.Rotation>
                             </RotateTransform3D>
                         </ModelVisual3D.Transform>
-                        <ModelVisual3D.Content>
                             <Model3DGroup x:Name="DancerModelGroup">
                                 <!-- Head -->
                                 <GeometryModel3D>
@@ -94,7 +91,6 @@
                                                 <SolidColorBrush Color="#FFFDE68A"/>
                                             </DiffuseMaterial.Brush>
                                         </DiffuseMaterial>
-                                    </GeometryModel3D.Material>
                                 </GeometryModel3D>
                                 <!-- Torso -->
                                 <GeometryModel3D>
@@ -108,14 +104,13 @@
                                     </GeometryModel3D.Geometry>
                                     <GeometryModel3D.Material>
                                         <DiffuseMaterial>
-                                            <DiffuseMaterial.Brush>
-                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                    <GradientStop Color="#FF5B6CF6" Offset="0"/>
+                                                    <GradientStop Color="#FF8B5CF6" Offset="1"/>
                                                     <GradientStop Color="#FF6C3CE1" Offset="0"/>
                                                     <GradientStop Color="#FFEC4899" Offset="1"/>
                                                 </LinearGradientBrush>
                                             </DiffuseMaterial.Brush>
                                         </DiffuseMaterial>
-                                    </GeometryModel3D.Material>
                                 </GeometryModel3D>
                                 <!-- Left leg -->
                                 <GeometryModel3D>
@@ -126,10 +121,9 @@
                                             TriangleIndices="0 1 2 0 2 3  4 6 5 4 7 6
                                                              0 3 7 0 7 4  1 5 6 1 6 2
                                                              3 2 6 3 6 7  0 4 5 0 5 1"/>
-                                    </GeometryModel3D.Geometry>
+                                        <DiffuseMaterial Brush="#FF1E1E3A"/>
                                     <GeometryModel3D.Material>
                                         <DiffuseMaterial Brush="#FF1E1E35"/>
-                                    </GeometryModel3D.Material>
                                 </GeometryModel3D>
                                 <!-- Right leg -->
                                 <GeometryModel3D>
@@ -140,10 +134,9 @@
                                             TriangleIndices="0 1 2 0 2 3  4 6 5 4 7 6
                                                              0 3 7 0 7 4  1 5 6 1 6 2
                                                              3 2 6 3 6 7  0 4 5 0 5 1"/>
-                                    </GeometryModel3D.Geometry>
+                                        <DiffuseMaterial Brush="#FF1E1E3A"/>
                                     <GeometryModel3D.Material>
                                         <DiffuseMaterial Brush="#FF1E1E35"/>
-                                    </GeometryModel3D.Material>
                                 </GeometryModel3D>
                                 <!-- Left arm -->
                                 <GeometryModel3D>
@@ -157,7 +150,6 @@
                                     </GeometryModel3D.Geometry>
                                     <GeometryModel3D.Material>
                                         <DiffuseMaterial Brush="#FFFDE68A"/>
-                                    </GeometryModel3D.Material>
                                 </GeometryModel3D>
                                 <!-- Right arm -->
                                 <GeometryModel3D>
@@ -174,50 +166,47 @@
                                     </GeometryModel3D.Material>
                                 </GeometryModel3D>
                             </Model3DGroup>
-                        </ModelVisual3D.Content>
                     </ModelVisual3D>
                     <!-- Floor grid -->
                     <h:GridLinesVisual3D Width="10" Length="10"
                                          MajorDistance="1" MinorDistance="0.5"
                                          Thickness="0.01"
-                                         Fill="#44FFFFFF"/>
-                </h:HelixViewport3D>
+                <TextBlock Text="Перетащите для вращения · Колесо для масштаба"
                 <!-- Overlay hint -->
-                <TextBlock Text="🖱 Перетащите для вращения · Колесо для масштаба"
-                           Foreground="{StaticResource TextSecondaryBrush}"
-                           FontSize="11" FontFamily="Segoe UI"
+                           FontSize="11" FontFamily="Segoe UI" Opacity="0.55"
+                           HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,12"/>
                            HorizontalAlignment="Center" VerticalAlignment="Bottom"
                            Margin="0,0,0,16" Opacity="0.6"/>
-            </Grid>
-        </Border>
+        <!-- RIGHT PANEL -->
+        <StackPanel Grid.Column="1" Margin="10,16,20,20">
         <!-- ======== RIGHT PANEL: controls ======== -->
-       <StackPanel Grid.Column="1" Margin="12,16,24,24">
+            <TextBlock Text="Вращайте камеру мышью, масштабируйте колесом." Margin="0,10,0,0"
             <TextBlock Text="Управление 3D" Style="{StaticResource SubheadingStyle}"/>
+
            <TextBlock Text="Вращайте камеру мышью, масштабируйте колесом." Margin="0,12,0,0"
-                       Style="{StaticResource BodyStyle}" TextWrapping="Wrap"/>
+                    Margin="0,10,0,0"
             <!-- Rotate animation toggle -->
             <Button x:Name="AutoRotateBtn"
                    Margin="0,12,0,0"
-                    Style="{StaticResource PrimaryButtonStyle}"
-                    Content="▶  Авто-вращение"
-                    Click="AutoRotate_Click"/>
+
+            <TextBlock Text="Угол камеры" Style="{StaticResource BodyStyle}" Margin="0,16,0,0"/>
+            <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
             <!-- Camera presets -->
            <TextBlock Text="Угол камеры" Style="{StaticResource BodyStyle}" Margin="0,20,0,0"/>
            <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-                <Button Style="{StaticResource IconButtonStyle}" Click="CameraFront_Click">
+                <Button Style="{StaticResource IconButtonStyle}" Click="CameraSide_Click" Margin="6,0,0,0">
                     <TextBlock Text="Спереди" Foreground="{StaticResource TextSecondaryBrush}" FontSize="12"/>
                 </Button>
-               <Button Style="{StaticResource IconButtonStyle}" Click="CameraSide_Click" Margin="8,0,0,0">
+                <Button Style="{StaticResource IconButtonStyle}" Click="CameraTop_Click" Margin="6,0,0,0">
                     <TextBlock Text="Сбоку" Foreground="{StaticResource TextSecondaryBrush}" FontSize="12"/>
                 </Button>
                <Button Style="{StaticResource IconButtonStyle}" Click="CameraTop_Click" Margin="8,0,0,0">
-                    <TextBlock Text="Сверху" Foreground="{StaticResource TextSecondaryBrush}" FontSize="12"/>
-                </Button>
+
+            <TextBlock Text="Анимация движений" Style="{StaticResource BodyStyle}" Margin="0,16,0,0"/>
             </StackPanel>
-            <!-- Step animations -->
-            <TextBlock Text="Анимация движений" Style="{StaticResource BodyStyle}" Margin="0,8,0,0"/>
-            <ListBox x:Name="MovementListBox"
-                   Margin="0,12,0,0"
+                     Margin="0,8,0,0"
+                     Background="{StaticResource BackgroundCardBrush}"
+                     BorderThickness="0" Padding="4"
                      Background="#FF1A1A2E"
                      BorderThickness="0"
                      Padding="4"
@@ -236,11 +225,12 @@
                     <TextBlock Text="4 · Поворот на 180°" Style="{StaticResource BodyStyle}"/>
                 </ListBoxItem>
                 <ListBoxItem>
+
                     <TextBlock Text="5 · Прыжок" Style="{StaticResource BodyStyle}"/>
                 </ListBoxItem>
             </ListBox>
             <!-- Info label -->
-            <TextBlock x:Name="MovementDescText"
+                       Margin="0,8,0,0"/>
                        Text="Выберите движение для анимации"
                        Style="{StaticResource BodyStyle}"
                        TextWrapping="Wrap"

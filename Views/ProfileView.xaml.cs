@@ -7,12 +7,17 @@ using DanceLearning.Models;
 namespace DanceLearning.Views
 {
     /// <summary>
-    /// Screen 4 — User Profile, gamification, progress bars, weekly calendar, playlist.
+    /// Screen 4 — User profile: stats, progress, weekly calendar, playlist.
     /// </summary>
     public partial class ProfileView : Page
     {
         private readonly ObservableCollection<PlaylistEntry> _playlist = new();
         private readonly UserProfile _profile;
+
+        // Mutable per-day flags (toggled on click)
+        private readonly bool[] _scheduled = { true, false, true, false, true, false, false };
+        private readonly bool[] _completed  = { true, false, true, false, false, false, false };
+        private readonly string[] _dayLabels = { "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс" };
 
         public ProfileView()
         {
@@ -21,105 +26,78 @@ namespace DanceLearning.Views
             InitialiseUi();
         }
 
-        // ───────────────────────────────────────────────────────────
-        //  Initialise
-        // ───────────────────────────────────────────────────────────
-
         private void InitialiseUi()
         {
-            // Header
-            UserNameText.Text = _profile.Name;
-            PointsText.Text = _profile.TotalPoints.ToString("N0");
+            UserNameText.Text         = _profile.Name;
+            PointsText.Text           = _profile.TotalPoints.ToString("N0");
             LessonsCompletedText.Text = _profile.LessonsCompleted.ToString();
-            BundlesLearnedText.Text = _profile.BundlesLearned.ToString();
-
-            // Build week calendar
+            BundlesLearnedText.Text   = _profile.BundlesLearned.ToString();
             BuildWeekCalendar();
-
-            // Playlist
             SeedDefaultPlaylist();
             PlaylistListBox.ItemsSource = _playlist;
         }
 
-        // ───────────────────────────────────────────────────────────
-        //  Week calendar builder
-        // ───────────────────────────────────────────────────────────
-
         private void BuildWeekCalendar()
         {
-            // Sample: Mon, Wed, Fri are scheduled; Mon and Wed are completed
-            bool[] scheduled = { true, false, true, false, true, false, false };
-            bool[] completed = { true, false, true, false, false, false, false };
-            string[] labels = { "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс" };
-
             WeekGrid.Children.Clear();
 
             for (int i = 0; i < 7; i++)
             {
                 int dayIndex = i;
+                bool isCompleted = _completed[i];
+                bool isSched     = _scheduled[i];
+
                 var dayBorder = new Border
                 {
-                    CornerRadius = new CornerRadius(10),
-                    Margin = new Thickness(3),
-                    Padding = new Thickness(4, 8, 4, 8),
-                    Background = completed[i]
-                        ? new LinearGradientBrush(
-                            System.Windows.Media.Color.FromRgb(0x6C, 0x3C, 0xE1),
-                            System.Windows.Media.Color.FromRgb(0xEC, 0x48, 0x99), 90)
-                        : scheduled[i]
-                            ? new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x25, 0x25, 0x45))
-                            : new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x1A, 0x1A, 0x2E)),
-                    Cursor = System.Windows.Input.Cursors.Hand
+                    CornerRadius = new CornerRadius(6),
+                    Margin       = new Thickness(2),
+                    Padding      = new Thickness(4, 6, 4, 6),
+                    Background   = GetDayBackground(isCompleted, isSched),
+                    Cursor       = System.Windows.Input.Cursors.Hand
                 };
 
                 var sp = new StackPanel { HorizontalAlignment = HorizontalAlignment.Center };
                 sp.Children.Add(new TextBlock
                 {
-                    Text = labels[i],
-                    Foreground = completed[i]
+                    Text        = _dayLabels[i],
+                    Foreground  = isCompleted
                         ? Brushes.White
                         : new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xB0, 0xB0, 0xC8)),
-                    FontSize = 11,
-                    FontFamily = new FontFamily("Segoe UI"),
+                    FontSize    = 11,
+                    FontFamily  = new FontFamily("Segoe UI"),
                     HorizontalAlignment = HorizontalAlignment.Center
                 });
 
-                // Dot indicator
                 sp.Children.Add(new System.Windows.Shapes.Ellipse
                 {
                     Width = 6, Height = 6,
-                    Margin = new Thickness(0, 4, 0, 0),
-                    Fill = scheduled[i]
-                        ? new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x6C, 0x3C, 0xE1))
-                        : new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x2A, 0x2A, 0x45)),
+                    Margin = new Thickness(0, 3, 0, 0),
+                    Fill   = isSched
+                        ? new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x5B, 0x6C, 0xF6))
+                        : new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x3A, 0x3A, 0x55)),
                     HorizontalAlignment = HorizontalAlignment.Center
                 });
 
                 dayBorder.Child = sp;
-
-                // Toggle schedule on click
                 dayBorder.MouseLeftButtonUp += (_, _) => ToggleDaySchedule(dayBorder, dayIndex);
-
                 WeekGrid.Children.Add(dayBorder);
             }
         }
 
-        private void ToggleDaySchedule(Border dayBorder, int dayIndex)
+        private static Brush GetDayBackground(bool completed, bool scheduled)
         {
-            // Visual toggle – in a real app this would persist to storage
-            var accentBrush = new SolidColorBrush(
-                System.Windows.Media.Color.FromRgb(0x25, 0x25, 0x45));
-            dayBorder.Background = dayBorder.Background is SolidColorBrush sb
-                                   && sb.Color.R == 0x25
-                ? new LinearGradientBrush(
-                    System.Windows.Media.Color.FromRgb(0x6C, 0x3C, 0xE1),
-                    System.Windows.Media.Color.FromRgb(0xEC, 0x48, 0x99), 90)
-                : accentBrush;
+            if (completed) return new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x5B, 0x6C, 0xF6));
+            if (scheduled) return new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x35, 0x35, 0x50));
+            return new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x27, 0x27, 0x3A));
         }
 
-        // ───────────────────────────────────────────────────────────
-        //  Playlist
-        // ───────────────────────────────────────────────────────────
+        private void ToggleDaySchedule(Border dayBorder, int dayIndex)
+        {
+            // Don't toggle completed days
+            if (_completed[dayIndex]) return;
+            _scheduled[dayIndex] = !_scheduled[dayIndex];
+            dayBorder.Background = GetDayBackground(_completed[dayIndex], _scheduled[dayIndex]);
+        }
 
         private void SeedDefaultPlaylist()
         {
@@ -130,7 +108,6 @@ namespace DanceLearning.Views
 
         private void AddLesson_Click(object sender, RoutedEventArgs e)
         {
-            // Simple demo: add a placeholder entry
             string[] days = { "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье" };
             string day = days[_playlist.Count % days.Length];
             _playlist.Add(new PlaylistEntry { Title = "High Heels — Новый урок", Day = day });
@@ -147,6 +124,6 @@ namespace DanceLearning.Views
     public class PlaylistEntry
     {
         public string Title { get; set; } = string.Empty;
-        public string Day { get; set; } = string.Empty;
+        public string Day   { get; set; } = string.Empty;
     }
 }
