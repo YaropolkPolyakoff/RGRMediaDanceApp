@@ -13,7 +13,6 @@ namespace DanceLearning.Views
     /// </summary>
     public partial class VideoPlayerView : Page
     {
-        // ── State ──────────────────────────────────────────────────
         private bool _isPlaying;
         private bool _isDraggingSeek;
         private bool _isMirrored;
@@ -26,10 +25,6 @@ namespace DanceLearning.Views
         private DanceStyle? _currentStyle;
         private Lesson? _currentLesson;
 
-        // Path data constants for play/pause icon switching
-        private const string PlayData  = "M4,2 L18,10 L4,18 Z";
-        private const string PauseData = "M3,2 H8 V18 H3 Z M12,2 H17 V18 H12 Z";
-
         public VideoPlayerView()
         {
             InitializeComponent();
@@ -39,10 +34,6 @@ namespace DanceLearning.Views
 
             LoopIndicator.Visibility = Visibility.Collapsed;
         }
-
-        // ───────────────────────────────────────────────────────────
-        //  Public API
-        // ───────────────────────────────────────────────────────────
 
         /// <summary>Loads a lesson's video and step list into the player.</summary>
         public void LoadLesson(DanceStyle style, Lesson lesson)
@@ -64,7 +55,7 @@ namespace DanceLearning.Views
             {
                 VideoPlayer.Source = null;
                 NoVideoPlaceholder.Visibility = Visibility.Visible;
-                SetPlayIcon(false);
+                SetPlayIcon(isPlaying: false);
                 SeekSlider.IsEnabled = false;
             }
         }
@@ -77,17 +68,13 @@ namespace DanceLearning.Views
             VideoPlayer.Source = null;
         }
 
-        // ───────────────────────────────────────────────────────────
-        //  Playback helpers
-        // ───────────────────────────────────────────────────────────
-
         private void Play()
         {
             VideoPlayer.Play();
             VideoPlayer.SpeedRatio = _speedRatio;
             _isPlaying = true;
             _positionTimer.Start();
-            SetPlayIcon(true);
+            SetPlayIcon(isPlaying: true);
         }
 
         private void Pause()
@@ -95,17 +82,14 @@ namespace DanceLearning.Views
             VideoPlayer.Pause();
             _isPlaying = false;
             _positionTimer.Stop();
-            SetPlayIcon(false);
+            SetPlayIcon(isPlaying: false);
         }
 
         private void SetPlayIcon(bool isPlaying)
         {
-            PlayPath.Data = Geometry.Parse(isPlaying ? PauseData : PlayData);
+            PlayPauseText.Text = isPlaying ? "⏸" : "▶";
         }
 
-        /// <summary>
-        /// Changes playback speed and updates the highlighted speed button.
-        /// Uses tag-based approach to avoid fragile visual-tree traversal.
         /// </summary>
         private void SetSpeed(double ratio, Button activeBtn)
         {
@@ -125,10 +109,6 @@ namespace DanceLearning.Views
                 tb.Foreground = isActive
                     ? (Brush)FindResource("AccentBrush")
                     : (Brush)FindResource("TextSecondaryBrush");
-        }
-
-        // ───────────────────────────────────────────────────────────
-        //  Timer
         // ───────────────────────────────────────────────────────────
 
         private void PositionTimer_Tick(object? sender, EventArgs e)
@@ -142,7 +122,6 @@ namespace DanceLearning.Views
                 ? (pos.TotalSeconds / total.TotalSeconds) * 100.0
                 : 0;
 
-            CurrentTimeText.Text = FormatTime(pos);
 
             // A-B loop enforcement
             if (_isLoopActive && _loopPointASet && pos >= _loopEnd)
@@ -150,10 +129,6 @@ namespace DanceLearning.Views
         }
 
         private static string FormatTime(TimeSpan t)
-            => t.Hours > 0 ? t.ToString(@"h\:mm\:ss") : t.ToString(@"m\:ss");
-
-        // ───────────────────────────────────────────────────────────
-        //  MediaElement events
         // ───────────────────────────────────────────────────────────
 
         private void VideoPlayer_MediaOpened(object sender, RoutedEventArgs e)
@@ -187,10 +162,6 @@ namespace DanceLearning.Views
                             "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
             NoVideoPlaceholder.Visibility = Visibility.Visible;
             SeekSlider.IsEnabled = false;
-        }
-
-        // ───────────────────────────────────────────────────────────
-        //  Control click handlers
         // ───────────────────────────────────────────────────────────
 
         private void PlayPause_Click(object sender, RoutedEventArgs e)
@@ -221,10 +192,7 @@ namespace DanceLearning.Views
             _isMirrored = !_isMirrored;
             VideoMirrorTransform.ScaleX = _isMirrored ? -1 : 1;
         }
-
-        /// <summary>
-        /// A-B Loop (three-state):
-        ///   Click 1 → set loop start (A)
+        /// A-B Loop: click 1 sets A, click 2 sets B and activates, click 3 cancels.
         ///   Click 2 → set loop end (B) and activate loop
         ///   Click 3 → cancel loop
         /// </summary>
@@ -277,10 +245,8 @@ namespace DanceLearning.Views
             {
                 var total = VideoPlayer.NaturalDuration.TimeSpan;
                 VideoPlayer.Position = TimeSpan.FromSeconds(
-                    (SeekSlider.Value / 100.0) * total.TotalSeconds);
-            }
-        }
-
+        // Seeking is committed only on mouse-up; this handler is intentionally empty
+        private void SeekSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) { }
         private void SeekSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             // Intentionally empty — seeking is committed only on mouse-up

@@ -4,174 +4,96 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="DanceLearning — Modern Dance Studio"
-        Width="1280" Height="800"
+        Title="Dance Learning"
+        Width="1200" Height="780"
         MinWidth="1024" MinHeight="650"
         WindowStartupLocation="CenterScreen"
-        Background="{StaticResource BackgroundDarkBrush}"
-        WindowStyle="None"
-        AllowsTransparency="True">
-    <Window.Resources>
-        <!-- Page fade-in animation -->
-        <Storyboard x:Key="PageFadeIn">
-            <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                             From="0" To="1" Duration="0:0:0.3">
-                <DoubleAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-        </Storyboard>
-    </Window.Resources>
-    <Border CornerRadius="12" ClipToBounds="True">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="220"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <!-- ===== LEFT NAVIGATION PANEL ===== -->
-            <Border Grid.Column="0"
-                    Background="{StaticResource BackgroundNavBrush}"
-                    BorderBrush="#FF1E1E35" BorderThickness="0,0,1,0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <!-- Logo -->
-                    <StackPanel Grid.Row="0" Margin="20,24,20,32">
-                        <Canvas Width="36" Height="36" HorizontalAlignment="Left" Margin="0,0,0,8">
-                            <!-- Vector logo: abstract dancer silhouette -->
-                            <Ellipse Canvas.Left="8" Canvas.Top="0" Width="20" Height="20"
-                                     Fill="{StaticResource AccentGradientBrush}"/>
-                            <Path Data="M18,20 C10,22 6,30 8,38 C10,46 20,48 24,42 C28,36 26,24 18,20 Z"
-                                  Fill="{StaticResource AccentGradientBrush}"/>
-                            <Path Data="M14,38 L10,50 M22,38 L26,50 M14,38 L26,38"
-                                  Stroke="{StaticResource AccentGradientBrush}"
-                                  StrokeThickness="3" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                        </Canvas>
-                        <TextBlock Text="DANCE" FontFamily="Segoe UI" FontSize="18" FontWeight="Black"
-                                   Foreground="{StaticResource TextPrimaryBrush}"/>
-                        <TextBlock Text="LEARNING" FontFamily="Segoe UI" FontSize="10" FontWeight="Light"
-                                   Foreground="{StaticResource AccentBrush}"/>
-                    </StackPanel>
-                    <!-- Navigation Items -->
-                    <StackPanel Grid.Row="1" Margin="12,0">
-                        <!-- Catalog -->
-                        <Button x:Name="NavCatalogBtn"
-                                Style="{StaticResource NavButtonActiveStyle}"
-                                Click="NavCatalog_Click"
-                                Margin="0,2">
-                            <StackPanel Orientation="Horizontal">
-                                <Canvas Width="20" Height="20" VerticalAlignment="Center">
-                                    <Path Data="M2,2 H8 V8 H2 Z M10,2 H16 V8 H10 Z M2,10 H8 V16 H2 Z M10,10 H16 V16 H10 Z"
-                                          Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
-                                </Canvas>
-                                <TextBlock Text="Каталог стилей" VerticalAlignment="Center" Margin="12,0,0,0"/>
-                            </StackPanel>
-                        </Button>
-                        <!-- Video Player -->
-                        <Button x:Name="NavPlayerBtn"
-                                Style="{StaticResource NavButtonStyle}"
-                                Click="NavPlayer_Click"
-                                Margin="0,2">
-                            <StackPanel Orientation="Horizontal">
-                                <Canvas Width="20" Height="20" VerticalAlignment="Center">
-                                    <Path Data="M2,2 L18,10 L2,18 Z"
-                                          Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
-                                </Canvas>
-                                <TextBlock Text="Видеоплеер" VerticalAlignment="Center" Margin="12,0,0,0"/>
-                            </StackPanel>
-                        </Button>
-                        <!-- 3D Scene -->
-                        <Button x:Name="Nav3DBtn"
-                                Style="{StaticResource NavButtonStyle}"
-                                Click="Nav3D_Click"
-                                Margin="0,2">
-                            <StackPanel Orientation="Horizontal">
-                                <Canvas Width="20" Height="20" VerticalAlignment="Center">
-                                    <Path Data="M10,2 L18,6 L18,14 L10,18 L2,14 L2,6 Z M2,6 L10,10 M18,6 L10,10 M10,10 L10,18"
-                                          Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
-                                          StrokeThickness="1.5" Fill="Transparent"
-                                          StrokeLineJoin="Round"/>
-                                </Canvas>
-                                <TextBlock Text="3D-демонстрация" VerticalAlignment="Center" Margin="12,0,0,0"/>
-                            </StackPanel>
-                        </Button>
-                        <!-- Profile -->
-                        <Button x:Name="NavProfileBtn"
-                                Style="{StaticResource NavButtonStyle}"
-                                Click="NavProfile_Click"
-                                Margin="0,2">
-                            <StackPanel Orientation="Horizontal">
-                                <Canvas Width="20" Height="20" VerticalAlignment="Center">
-                                    <Ellipse Canvas.Left="5" Canvas.Top="1" Width="10" Height="10"
-                                             Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
-                                    <Path Data="M2,20 C2,14 18,14 18,20"
-                                          Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
-                                </Canvas>
-                                <TextBlock Text="Личный кабинет" VerticalAlignment="Center" Margin="12,0,0,0"/>
-                            </StackPanel>
-                        </Button>
-                    </StackPanel>
-                    <!-- Bottom: Version info -->
-                    <StackPanel Grid.Row="2" Margin="20,16,20,20">
-                        <Separator Background="#FF1E1E35" Margin="0,0,0,12"/>
-                        <TextBlock Text="v1.0.0 · Dance Learning"
-                                   Style="{StaticResource BodyStyle}"
-                                   FontSize="11" Opacity="0.5"/>
-                    </StackPanel>
+        Background="{StaticResource BackgroundDarkBrush}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ===== LEFT NAVIGATION ===== -->
+        <Border Grid.Column="0"
+                Background="{StaticResource BackgroundNavBrush}"
+                BorderBrush="#FF2E2E44" BorderThickness="0,0,1,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- App title -->
+                <StackPanel Grid.Row="0" Margin="16,20,16,24">
+                    <TextBlock Text="Dance Learning"
+                               Foreground="{StaticResource TextPrimaryBrush}"
+                               FontFamily="Segoe UI" FontSize="16" FontWeight="SemiBold"/>
+                    <TextBlock Text="студия танца"
+                               Foreground="{StaticResource AccentBrush}"
+                               FontFamily="Segoe UI" FontSize="11" Margin="0,2,0,0"/>
+                </StackPanel>
+
+                <!-- Navigation buttons -->
+                <StackPanel Grid.Row="1" Margin="8,0">
+                    <Button x:Name="NavCatalogBtn"
+                            Style="{StaticResource NavButtonActiveStyle}"
+                            Click="NavCatalog_Click"
+                            Content="Каталог стилей"
+                            Margin="0,2"/>
+                    <Button x:Name="NavPlayerBtn"
+                            Style="{StaticResource NavButtonStyle}"
+                            Click="NavPlayer_Click"
+                            Content="Видеоплеер"
+                            Margin="0,2"/>
+                    <Button x:Name="Nav3DBtn"
+                            Style="{StaticResource NavButtonStyle}"
+                            Click="Nav3D_Click"
+                            Content="3D-демонстрация"
+                            Margin="0,2"/>
+                    <Button x:Name="NavProfileBtn"
+                            Style="{StaticResource NavButtonStyle}"
+                            Click="NavProfile_Click"
+                            Content="Личный кабинет"
+                            Margin="0,2"/>
+                </StackPanel>
+
+                <!-- Version -->
+                <StackPanel Grid.Row="2" Margin="16,12,16,16">
+                    <Separator Background="#FF2E2E44" Margin="0,0,0,8"/>
+                    <TextBlock Text="v1.0.0"
+                               Style="{StaticResource BodyStyle}"
+                               FontSize="11" Opacity="0.5"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ===== CONTENT AREA ===== -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="44"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Top bar -->
+            <Border Grid.Row="0"
+                    Background="{StaticResource BackgroundDarkBrush}"
+                    BorderBrush="#FF2E2E44" BorderThickness="0,0,0,1">
+                <Grid Margin="16,0">
+                    <TextBlock x:Name="PageTitleText"
+                               Text="Каталог стилей"
+                               Style="{StaticResource SubheadingStyle}"
+                               VerticalAlignment="Center"/>
                 </Grid>
             </Border>
-            <!-- ===== MAIN CONTENT AREA ===== -->
-            <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="48"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <!-- Title bar drag area -->
-                <Border Grid.Row="0"
-                        Background="{StaticResource BackgroundDarkBrush}"
-                        MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
-                    <Grid Margin="16,0">
-                        <TextBlock x:Name="PageTitleText"
-                                   Text="Каталог стилей"
-                                   Style="{StaticResource SubheadingStyle}"
-                                   VerticalAlignment="Center"/>
-                        <!-- Window controls -->
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
-                                    VerticalAlignment="Center">
-                            <Button Style="{StaticResource IconButtonStyle}"
-                                    Click="MinimizeWindow_Click" ToolTip="Свернуть">
-                                <Canvas Width="16" Height="16">
-                                    <Path Data="M2,8 H14" Stroke="{StaticResource TextSecondaryBrush}"
-                                          StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                                </Canvas>
-                            </Button>
-                            <Button Style="{StaticResource IconButtonStyle}" Margin="8,0,0,0"
-                                    Click="MaximizeWindow_Click" ToolTip="Развернуть">
-                                <Canvas Width="16" Height="16">
-                                    <Path Data="M2,2 H14 V14 H2 Z" Stroke="{StaticResource TextSecondaryBrush}"
-                                          StrokeThickness="1.5" Fill="Transparent"/>
-                                </Canvas>
-                            </Button>
-                            <Button Style="{StaticResource IconButtonStyle}" Margin="8,0,0,0"
-                                    Click="CloseWindow_Click" ToolTip="Закрыть">
-                                <Canvas Width="16" Height="16">
-                                    <Path Data="M2,2 L14,14 M14,2 L2,14"
-                                          Stroke="{StaticResource TextSecondaryBrush}"
-                                          StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                                </Canvas>
-                            </Button>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-                <!-- Content Frame -->
-                <Frame x:Name="MainFrame"
-                       Grid.Row="1"
-                       NavigationUIVisibility="Hidden"
-                       Background="Transparent"/>
-            </Grid>
+
+            <!-- Page frame -->
+            <Frame x:Name="MainFrame"
+                   Grid.Row="1"
+                   NavigationUIVisibility="Hidden"
+                   Background="Transparent"/>
         </Grid>
-    </Border>
+    </Grid>
 </Window>
