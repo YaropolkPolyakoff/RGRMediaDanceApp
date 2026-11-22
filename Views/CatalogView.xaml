@@ -102,19 +102,20 @@
                                     <!-- Lessons count badge -->
                                     <Border Grid.Row="0" Grid.Column="1"
                                             Background="#FF252545" CornerRadius="12" Padding="8,3">
-                                        <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <StackPanel Orientation="Horizontal">
                                             <Canvas Width="12" Height="12" VerticalAlignment="Center">
                                                 <Path Data="M2,2 H10 V10 H2 Z M4,4 H8 M4,6 H8 M4,8 H8"
                                                       Stroke="{StaticResource AccentBrush}"
                                                       StrokeThickness="1.2"/>
                                             </Canvas>
                                             <TextBlock Text="{Binding LessonsCount, StringFormat='{}{0} уроков'}"
+                                                       Margin="4,0,0,0"
                                                        Foreground="{StaticResource AccentBrush}"
                                                        FontSize="11" FontFamily="Segoe UI" FontWeight="SemiBold"/>
                                         </StackPanel>
                                     </Border>
                                     <!-- Description & Difficulty -->
-                                    <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal"
+                                                Margin="0,6,0,0" VerticalAlignment="Center">
                                                 Margin="0,6,0,0" VerticalAlignment="Center" Spacing="8">
                                         <!-- Difficulty dot indicator -->
                                         <Ellipse Width="8" Height="8" VerticalAlignment="Center">
@@ -133,6 +134,7 @@
                                             </Ellipse.Style>
                                         </Ellipse>
                                         <TextBlock Text="{Binding Difficulty}"
+                                                   Margin="8,0,0,0"
                                                    Style="{StaticResource BodyStyle}"
                                                    VerticalAlignment="Center"/>
                                     </StackPanel>

@@ -10,11 +10,7 @@
             <DoubleAnimation Storyboard.TargetName="ModelRotation"
                              Storyboard.TargetProperty="Angle"
                              From="0" To="360"
-                             Duration="0:0:6">
-                <DoubleAnimation.EasingFunction>
-                    <LinearEase/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
+                            Duration="0:0:6"/>
         </Storyboard>
         <!-- Camera zoom animation -->
         <Storyboard x:Key="CameraZoomIn">
@@ -195,31 +191,33 @@
             </Grid>
         </Border>
         <!-- ======== RIGHT PANEL: controls ======== -->
-        <StackPanel Grid.Column="1" Margin="12,16,24,24" Spacing="12">
+       <StackPanel Grid.Column="1" Margin="12,16,24,24">
             <TextBlock Text="Управление 3D" Style="{StaticResource SubheadingStyle}"/>
-            <TextBlock Text="Вращайте камеру мышью, масштабируйте колесом."
+           <TextBlock Text="Вращайте камеру мышью, масштабируйте колесом." Margin="0,12,0,0"
                        Style="{StaticResource BodyStyle}" TextWrapping="Wrap"/>
             <!-- Rotate animation toggle -->
             <Button x:Name="AutoRotateBtn"
+                   Margin="0,12,0,0"
                     Style="{StaticResource PrimaryButtonStyle}"
                     Content="▶  Авто-вращение"
                     Click="AutoRotate_Click"/>
             <!-- Camera presets -->
-            <TextBlock Text="Угол камеры" Style="{StaticResource BodyStyle}" Margin="0,8,0,0"/>
-            <StackPanel Orientation="Horizontal" Spacing="8">
+           <TextBlock Text="Угол камеры" Style="{StaticResource BodyStyle}" Margin="0,20,0,0"/>
+           <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
                 <Button Style="{StaticResource IconButtonStyle}" Click="CameraFront_Click">
                     <TextBlock Text="Спереди" Foreground="{StaticResource TextSecondaryBrush}" FontSize="12"/>
                 </Button>
-                <Button Style="{StaticResource IconButtonStyle}" Click="CameraSide_Click">
+               <Button Style="{StaticResource IconButtonStyle}" Click="CameraSide_Click" Margin="8,0,0,0">
                     <TextBlock Text="Сбоку" Foreground="{StaticResource TextSecondaryBrush}" FontSize="12"/>
                 </Button>
-                <Button Style="{StaticResource IconButtonStyle}" Click="CameraTop_Click">
+               <Button Style="{StaticResource IconButtonStyle}" Click="CameraTop_Click" Margin="8,0,0,0">
                     <TextBlock Text="Сверху" Foreground="{StaticResource TextSecondaryBrush}" FontSize="12"/>
                 </Button>
             </StackPanel>
             <!-- Step animations -->
             <TextBlock Text="Анимация движений" Style="{StaticResource BodyStyle}" Margin="0,8,0,0"/>
             <ListBox x:Name="MovementListBox"
+                   Margin="0,12,0,0"
                      Background="#FF1A1A2E"
                      BorderThickness="0"
                      Padding="4"
