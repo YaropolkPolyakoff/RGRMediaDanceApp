@@ -115,8 +115,8 @@
                                         </StackPanel>
                                     </Border>
                                     <!-- Description & Difficulty -->
-                                                Margin="0,6,0,0" VerticalAlignment="Center">
-                                                Margin="0,6,0,0" VerticalAlignment="Center" Spacing="8">
+                                   <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal"
+                                               Margin="0,6,0,0" VerticalAlignment="Center">
                                         <!-- Difficulty dot indicator -->
                                         <Ellipse Width="8" Height="8" VerticalAlignment="Center">
                                             <Ellipse.Style>
