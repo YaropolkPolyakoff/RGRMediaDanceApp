@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HelixToolkit.Wpf" Version="2.25.0" />
+    <PackageReference Include="HelixToolkit.Wpf" Version="2.7.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,16 +19,6 @@
     <Resource Include="Assets\Images\breakdance.png" Condition="Exists('Assets\Images\breakdance.png')" />
     <Resource Include="Assets\Images\kpop.png" Condition="Exists('Assets\Images\kpop.png')" />
     <Resource Include="Assets\Images\highheels.png" Condition="Exists('Assets\Images\highheels.png')" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Include="App.xaml" />
-    <Page Include="MainWindow.xaml" />
-    <Page Include="Themes\Styles.xaml" />
-    <Page Include="Views\CatalogView.xaml" />
-    <Page Include="Views\VideoPlayerView.xaml" />
-    <Page Include="Views\Scene3DView.xaml" />
-    <Page Include="Views\ProfileView.xaml" />
   </ItemGroup>
 
 </Project>

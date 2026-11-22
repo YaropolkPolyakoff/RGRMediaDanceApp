@@ -95,21 +95,21 @@
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
                         <TextBlock x:Name="UserNameText" Text="Алексей"
                                    Style="{StaticResource HeadingStyle}" FontSize="22"/>
-                        <StackPanel Orientation="Horizontal" Margin="0,4,0,0" Spacing="8">
+                       <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
                             <Border Background="{StaticResource AccentGradientBrush}"
                                     CornerRadius="10" Padding="10,3">
                                 <TextBlock Text="Уровень 5 · Опытный"
                                            Foreground="White" FontSize="12" FontFamily="Segoe UI"
                                            FontWeight="SemiBold"/>
                             </Border>
-                            <Border Background="#FF252545" CornerRadius="10" Padding="10,3">
-                                <StackPanel Orientation="Horizontal" Spacing="4">
+                           <Border Background="#FF252545" CornerRadius="10" Padding="10,3" Margin="8,0,0,0">
+                               <StackPanel Orientation="Horizontal">
                                     <!-- Fire icon -->
                                     <Canvas Width="12" Height="14" VerticalAlignment="Center">
                                         <Path Data="M6,0 C4,4 8,5 7,9 C9,7 11,4 8,0 C10,5 13,8 10,12 C8,14 4,14 2,12 C0,8 3,5 6,0 Z"
                                               Fill="#FFF59E0B"/>
                                     </Canvas>
-                                    <TextBlock Text="5 дней подряд"
+                                   <TextBlock Text="5 дней подряд" Margin="4,0,0,0"
                                                Foreground="#FFF59E0B" FontSize="12" FontFamily="Segoe UI"
                                                FontWeight="SemiBold"/>
                                 </StackPanel>
@@ -185,60 +185,60 @@
                 <!-- Progress per style -->
                 <Border Grid.Column="0" Background="{StaticResource BackgroundCardBrush}"
                         CornerRadius="12" Padding="20" Margin="0,0,8,0">
-                    <StackPanel Spacing="16">
+                   <StackPanel>
                         <TextBlock Text="Прогресс по стилям" Style="{StaticResource SubheadingStyle}"/>
                         <!-- Overall -->
-                        <StackPanel Spacing="6">
+                       <StackPanel Margin="0,16,0,0">
                             <Grid>
                                 <TextBlock Text="Общий прогресс" Style="{StaticResource BodyStyle}"/>
                                 <TextBlock x:Name="OverallPctText" Text="42%" HorizontalAlignment="Right"
                                            Style="{StaticResource BodyStyle}" Foreground="{StaticResource AccentBrush}"/>
                             </Grid>
-                            <ProgressBar x:Name="OverallProgressBar"
+                           <ProgressBar x:Name="OverallProgressBar" Margin="0,6,0,0"
                                          Style="{StaticResource GradientProgressBarStyle}"
                                          Minimum="0" Maximum="100" Value="0"/>
                         </StackPanel>
                         <!-- Hip-Hop -->
-                        <StackPanel Spacing="6">
+                       <StackPanel Margin="0,16,0,0">
                             <Grid>
                                 <TextBlock Text="Hip-Hop" Style="{StaticResource BodyStyle}"/>
                                 <TextBlock Text="65%" HorizontalAlignment="Right"
                                            Style="{StaticResource BodyStyle}" Foreground="{StaticResource AccentBrush}"/>
                             </Grid>
-                            <ProgressBar x:Name="HipHopProgressBar"
+                           <ProgressBar x:Name="HipHopProgressBar" Margin="0,6,0,0"
                                          Style="{StaticResource GradientProgressBarStyle}"
                                          Minimum="0" Maximum="100" Value="0"/>
                         </StackPanel>
                         <!-- Breakdance -->
-                        <StackPanel Spacing="6">
+                       <StackPanel Margin="0,16,0,0">
                             <Grid>
                                 <TextBlock Text="Breakdance" Style="{StaticResource BodyStyle}"/>
                                 <TextBlock Text="30%" HorizontalAlignment="Right"
                                            Style="{StaticResource BodyStyle}" Foreground="{StaticResource AccentBrush}"/>
                             </Grid>
-                            <ProgressBar x:Name="BreakProgressBar"
+                           <ProgressBar x:Name="BreakProgressBar" Margin="0,6,0,0"
                                          Style="{StaticResource GradientProgressBarStyle}"
                                          Minimum="0" Maximum="100" Value="0"/>
                         </StackPanel>
                         <!-- K-Pop -->
-                        <StackPanel Spacing="6">
+                       <StackPanel Margin="0,16,0,0">
                             <Grid>
                                 <TextBlock Text="K-Pop Cover Dance" Style="{StaticResource BodyStyle}"/>
                                 <TextBlock Text="80%" HorizontalAlignment="Right"
                                            Style="{StaticResource BodyStyle}" Foreground="{StaticResource AccentBrush}"/>
                             </Grid>
-                            <ProgressBar x:Name="KPopProgressBar"
+                           <ProgressBar x:Name="KPopProgressBar" Margin="0,6,0,0"
                                          Style="{StaticResource GradientProgressBarStyle}"
                                          Minimum="0" Maximum="100" Value="0"/>
                         </StackPanel>
                         <!-- High Heels -->
-                        <StackPanel Spacing="6">
+                       <StackPanel Margin="0,16,0,0">
                             <Grid>
                                 <TextBlock Text="High Heels" Style="{StaticResource BodyStyle}"/>
                                 <TextBlock Text="20%" HorizontalAlignment="Right"
                                            Style="{StaticResource BodyStyle}" Foreground="{StaticResource AccentBrush}"/>
                             </Grid>
-                            <ProgressBar x:Name="HighHeelsProgressBar"
+                           <ProgressBar x:Name="HighHeelsProgressBar" Margin="0,6,0,0"
                                          Style="{StaticResource GradientProgressBarStyle}"
                                          Minimum="0" Maximum="100" Value="0"/>
                         </StackPanel>
@@ -247,16 +247,16 @@
                 <!-- Week Schedule -->
                 <Border Grid.Column="1" Background="{StaticResource BackgroundCardBrush}"
                         CornerRadius="12" Padding="20" Margin="8,0,0,0">
-                    <StackPanel Spacing="12">
+                   <StackPanel>
                         <TextBlock Text="Тренировочная неделя" Style="{StaticResource SubheadingStyle}"/>
-                        <UniformGrid x:Name="WeekGrid" Columns="7" Rows="1" Margin="0,4,0,0"/>
+                       <UniformGrid x:Name="WeekGrid" Columns="7" Rows="1" Margin="0,16,0,0"/>
                     </StackPanel>
                 </Border>
             </Grid>
             <!-- ── WEEKLY PLAYLIST ── -->
             <Border Grid.Row="3" Background="{StaticResource BackgroundCardBrush}"
                     CornerRadius="12" Padding="20">
-                <StackPanel Spacing="12">
+               <StackPanel>
                     <Grid>
                         <TextBlock Text="Плейлист на неделю" Style="{StaticResource SubheadingStyle}"/>
                         <Button HorizontalAlignment="Right"
@@ -264,7 +264,7 @@
                                 Content="+ Добавить урок"
                                 Click="AddLesson_Click"/>
                     </Grid>
-                    <ListBox x:Name="PlaylistListBox"
+                   <ListBox x:Name="PlaylistListBox" Margin="0,12,0,0"
                              Background="Transparent"
                              BorderThickness="0"
                              Padding="0"
